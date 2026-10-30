@@ -18,7 +18,7 @@ import {
   CreditCard,
 } from 'lucide-react';
 import useAuthStore from '@stores/authStore';
-import { authApi, userApi, trialApi } from '@services/api';
+import { authApi, userApi } from '@services/api';
 import Button from '@components/ui/Button';
 import toast from 'react-hot-toast';
 import DashboardLayout from '@components/dashboard/DashboardLayout';
@@ -102,8 +102,6 @@ function OverviewTab({ onGoTab }) {
   const [sub, setSub] = useState(null);
   const [raffleTickets, setRaffleTickets] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [trialActivating, setTrialActivating] = useState(false);
-
   const loadOverview = useCallback(async () => {
     try {
       const [subRes, meRes] = await Promise.all([
@@ -125,31 +123,19 @@ function OverviewTab({ onGoTab }) {
     loadOverview();
   }, [loadOverview]);
 
-  const handleActivateTrial = async () => {
-    setTrialActivating(true);
-    try {
-      const { data } = await trialApi.activate();
-      if (data?.success) {
-        toast.success('Пробный доступ активирован!');
-        await loadOverview();
-      }
-    } catch (err) {
-      const msg = err.response?.data?.error || err.response?.data?.detail || 'Не удалось активировать пробный доступ';
-      toast.error(msg);
-    } finally {
-      setTrialActivating(false);
-    }
-  };
-
   const isActive = sub?.active || sub?.pro?.active;
   const expires = sub?.expires || sub?.pro?.expires;
   const hasPaid =
     sub?.has_paid_subscription === true || sub?.pro?.has_paid_subscription === true;
+  const inPanel = sub?.in_panel === true;
+  const trialAvailable =
+    sub?.trial_available === true
+    || (sub?.trial_available == null && !inPanel);
   const planName =
     sub?.plan_name
     || sub?.pro?.plan_name
     || (isActive && !hasPaid ? 'Пробный' : 'Подписка');
-  const showTrialCta = !isActive && !hasPaid;
+  const showTrialCta = trialAvailable && !isActive && !hasPaid;
 
   if (loading) return <LoadingBlock />;
 
@@ -205,17 +191,13 @@ function OverviewTab({ onGoTab }) {
         ) : (
           <p className="text-sm text-red-400 mb-4">Подписка не активна</p>
         )}
-        {showTrialCta && (
+        {showTrialCta && !inPanel && (
           <button
             type="button"
-            onClick={handleActivateTrial}
-            disabled={trialActivating}
-            className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-semibold bg-happ-blue text-white hover:bg-happ-blue-hover transition-colors disabled:opacity-60 mb-4"
+            onClick={() => onGoTab('buy')}
+            className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-semibold bg-happ-blue text-white hover:bg-happ-blue-hover transition-colors mb-4"
           >
-            {trialActivating ? (
-              <Loader2 className="w-4 h-4 animate-spin shrink-0" aria-hidden />
-            ) : null}
-            Попробовать бесплатно
+            Попробовать 3 дня за 9 рублей
           </button>
         )}
         {isActive && (

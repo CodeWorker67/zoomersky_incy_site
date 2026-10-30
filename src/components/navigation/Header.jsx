@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { NAV_LINKS, ROUTES } from '@utils/constants';
+import { NAV_LINKS, ROUTES, TRIAL_OFFER_LABEL } from '@utils/constants';
 import useAuthStore from '@stores/authStore';
 
 const HOME_ANCHORS = [
@@ -91,7 +91,7 @@ export default function Header() {
             )}
             {!hideTrialCta && (
               <Link className="btn btn-win btn-sm" to={authTo}>
-                1 день бесплатно
+                {TRIAL_OFFER_LABEL}
               </Link>
             )}
             <details className="mobile-nav">

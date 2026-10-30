@@ -5,13 +5,13 @@ import PricingCards from '@components/sections/PricingCards';
 import FaqSection from '@components/sections/FaqSection';
 import CtaBlock from '@components/sections/CtaBlock';
 import Button from '@components/ui/Button';
-import { BRAND, BRAND_META, HOME_TARIFFS, ROUTES, SERVERS } from '@utils/constants';
+import { BRAND, BRAND_META, HOME_TARIFFS, ROUTES, SERVERS, TRIAL_OFFER_LABEL } from '@utils/constants';
 import { buildTelegramBotUrl } from '@utils/botLink';
 
 const FAQ = [
   { q: 'Что такое ключ и подписка для INCY (Инси)?', a: 'INCY — клиент. Зумерский VPN выдаёт ключ и подписку для импорта. Ключ — способ подключения, подписка — оплаченный период.' },
   { q: 'Где взять серверы для INCY?', a: 'Добавьте одну ссылку-подписку от Зумерский VPN — серверы появятся списком автоматически.' },
-  { q: 'Можно ли получить ключ для INCY бесплатно?', a: 'Да — пробный доступ без карты. После пробного периода доступ продлевается подпиской.' },
+  { q: 'Можно ли получить ключ для INCY на пробный период?', a: 'Да — триал 3 дня за 9 ₽ в личном кабинете. После триала доступ продлевается подпиской.' },
   { q: 'Сколько стоит подписка для INCY?', a: 'От 99 ₽ за 7 дней. 30 дней — 299 ₽, 90 — 749 ₽, 180 — 1349 ₽.' },
   { q: 'Нужен ли отдельный ключ под каждый сервер INCY?', a: 'Нет. Одна ссылка-подписка открывает все серверы.' },
   { q: 'Как добавить доступ в INCY?', a: 'Кнопкой из кабинета, по ссылке-подписке или QR-коду. Затем выберите сервер.' },
@@ -25,8 +25,8 @@ export default function IncyVpnPage() {
       <RouteMeta path={ROUTES.INCY_VPN} />
       <PageHero
         title="INCY (Инси) ключ и подписка VPN"
-        subtitle="Получите ключ или ссылку-подписку для INCY. После добавления в приложении появятся серверы — выбирайте локацию и подключайтесь. Пробный доступ без карты."
-        primaryLabel="Получить бесплатно"
+        subtitle={`Получите ключ или ссылку-подписку для INCY. Серверы появятся после импорта. ${TRIAL_OFFER_LABEL}.`}
+        primaryLabel={TRIAL_OFFER_LABEL}
         primaryTo={ROUTES.LOGIN}
         secondaryLabel="Оформить подписку"
         secondaryTo={ROUTES.HAPP}
@@ -48,12 +48,12 @@ export default function IncyVpnPage() {
 
       <section className="py-16 bg-zoomer-card/20">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-happ-ink mb-4">INCY ключ и подписка бесплатно</h2>
+          <h2 className="text-2xl font-bold text-happ-ink mb-4">INCY ключ — {TRIAL_OFFER_LABEL}</h2>
           <p className="text-happ-muted leading-relaxed mb-6">
-            Получить ключ для INCY бесплатно можно по пробному доступу Зумерский VPN — без карты и автосписаний.
-            «Вечных» бесплатных ключей не бывает — после пробного периода доступ продлевается подпиской.
+            Оформите {TRIAL_OFFER_LABEL.toLowerCase()} в личном кабинете, раздел «Купить». Без автосписаний —
+            после триала доступ продлевается обычной подпиской.
           </p>
-          <Link to={ROUTES.HAPP_FREE}><Button variant="secondary">Активировать пробный доступ</Button></Link>
+          <Link to={ROUTES.LOGIN}><Button variant="secondary">{TRIAL_OFFER_LABEL}</Button></Link>
         </div>
       </section>
 
@@ -74,7 +74,7 @@ export default function IncyVpnPage() {
         <div className="max-w-3xl mx-auto px-4">
           <h2 className="text-2xl font-bold text-happ-ink mb-8">Как получить ключ и подписку INCY</h2>
           <ol className="space-y-3 text-happ-muted mb-8">
-            {['Регистрация по email или Google', 'Пробный доступ или тариф', 'Подписка в личном кабинете', 'Добавить в INCY и выбрать сервер'].map((s, i) => (
+            {['Регистрация по email или Google', TRIAL_OFFER_LABEL, 'Ключ в личном кабинете', 'Добавить в INCY и выбрать сервер'].map((s, i) => (
               <li key={s} className="flex gap-4">
                 <span className="text-zoomer-neon font-bold">{i + 1}.</span> {s}
               </li>
@@ -133,7 +133,7 @@ export default function IncyVpnPage() {
       </section>
 
       <FaqSection items={FAQ} />
-      <CtaBlock title="Получите ключ и подписку для INCY за минуту" subtitle="Пробный доступ без карты." buttonLabel="Получить бесплатно" />
+      <CtaBlock title="Получите ключ и подписку для INCY за минуту" subtitle={TRIAL_OFFER_LABEL} buttonLabel={TRIAL_OFFER_LABEL} />
     </>
   );
 }

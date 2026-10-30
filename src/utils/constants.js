@@ -44,17 +44,47 @@ export const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
 export const BRAND = 'Зумерский VPN';
 export const BRAND_META = 'Зумерский ВПН';
 
-/** Тарифы Zoomer (из dct_price бота), от большего срока к меньшему */
+/** Единая формулировка пробного тарифа на лендинге */
+export const TRIAL_OFFER_LABEL = 'Триал 3 дня за 9 ₽';
+
+/** Платный триал (landing, раздел «Купить» при in_panel=false) */
+export const TRIAL_TARIFF = {
+  id: '3trial',
+  label: 'Триал 3 дня',
+  price: 9,
+  days: 3,
+  devices: 5,
+  traffic: 'Безлимит',
+  isTrial: true,
+};
+
+/** Тарифы Zoomer (из dct_price бота), по возрастанию срока */
 export const TARIFFS = [
-  { id: '730', label: '2 года', price: 3699, days: 730, devices: 5, traffic: 'Безлимит' },
-  { id: '365', label: '365 дней', price: 2399, days: 365, devices: 5, traffic: 'Безлимит' },
-  { id: '180', label: '180 дней', price: 1349, days: 180, devices: 5, traffic: 'Безлимит' },
-  { id: '90', label: '90 дней', price: 749, days: 90, devices: 5, traffic: 'Безлимит', popular: true },
-  { id: '30', label: '30 дней', price: 299, days: 30, devices: 5, traffic: 'Безлимит' },
   { id: '7', label: '7 дней', price: 99, days: 7, devices: 5, traffic: 'Безлимит' },
+  { id: '30', label: '30 дней', price: 299, days: 30, devices: 5, traffic: 'Безлимит' },
+  { id: '90', label: '90 дней', price: 749, days: 90, devices: 5, traffic: 'Безлимит', popular: true },
+  { id: '180', label: '180 дней', price: 1349, days: 180, devices: 5, traffic: 'Безлимит' },
+  { id: '365', label: '365 дней', price: 2399, days: 365, devices: 5, traffic: 'Безлимит' },
+  { id: '730', label: '2 года', price: 3699, days: 730, devices: 5, traffic: 'Безлимит' },
+  { id: '5000', label: 'Навсегда', price: 4990, days: 5000, devices: 5, traffic: 'Безлимит' },
 ];
 
-/** Все тарифы для страниц «Подписка» и главной */
+/** Тарифы для раздела «Купить»: триал первым, если ключ ещё не активировали */
+export function tariffsForBuySection(inPanel) {
+  if (inPanel) {
+    return TARIFFS;
+  }
+  return [TRIAL_TARIFF, ...TARIFFS];
+}
+
+export function findTariffById(tariffId) {
+  if (tariffId === TRIAL_TARIFF.id) {
+    return TRIAL_TARIFF;
+  }
+  return TARIFFS.find((t) => t.id === tariffId) ?? null;
+}
+
+/** Все тарифы для страниц «Подписка» и главной (без триала) */
 export const HOME_TARIFFS = TARIFFS;
 
 export const PAYMENT_METHODS = [
@@ -65,7 +95,7 @@ export const PAYMENT_METHODS = [
 /** Пункты меню как на kavkazvpn.ru (без переключателя языка) */
 export const NAV_LINKS = [
   { path: ROUTES.HAPP, label: 'Подписка' },
-  { path: ROUTES.HAPP_FREE, label: 'Бесплатно' },
+  { path: ROUTES.HAPP_FREE, label: 'Триал 9 ₽' },
   { path: ROUTES.HAPP_DOWNLOAD, label: 'Скачать Happ' },
   { path: ROUTES.INCY_VPN, label: 'INCY' },
 ];
@@ -123,7 +153,7 @@ export const HOME_FAQ = [
   },
   {
     q: 'Нужен ли для INCY ключ?',
-    a: 'Да. INCY — это клиент: чтобы подключиться, нужен ключ-подписка (ссылка вида sub.…/…), QR-код или файл конфигурации. Рабочий ключ можно получить бесплатно на 1 день — по кнопке на странице или в личном кабинете.',
+    a: 'Да. INCY — это клиент: чтобы подключиться, нужен ключ-подписка (ссылка вида sub.…/…), QR-код или файл конфигурации. Рабочий ключ — тариф «Триал 3 дня за 9 ₽» в личном кабинете, раздел «Купить».',
   },
   {
     q: 'Чем INCY отличается от Happ?',
@@ -131,7 +161,7 @@ export const HOME_FAQ = [
   },
   {
     q: 'Как получить ключ для INCY?',
-    a: 'Зарегистрируйтесь на Зумерский VPN по email или Google, либо перейдите в Telegram-бот. Ключ появится в личном кабинете сразу после регистрации — его можно добавить в INCY или Happ.',
+    a: 'Зарегистрируйтесь на Зумерский VPN по email или Google, либо перейдите в Telegram-бот. Оформите «Триал 3 дня за 9 ₽» в разделе «Купить» — ключ появится в личном кабинете для INCY или Happ.',
   },
   {
     q: 'Чем подписка отличается от разового ключа?',

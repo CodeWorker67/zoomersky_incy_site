@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ROUTES } from '@utils/constants';
+import { ROUTES, TRIAL_OFFER_LABEL } from '@utils/constants';
 
 function Rub({ children, color = 'var(--color-ink-soft)' }) {
   return (
@@ -13,23 +13,25 @@ export default function PricingSection() {
       <div style={{ maxWidth: 760, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: 44 }}>
           <span className="chip" style={{ textTransform: 'none' }}>Тарифы</span>
-          <h2 className="mt-3" style={{ fontSize: 'clamp(1.45rem, 3vw, 1.85rem)' }}>Ключ для INCY — начните бесплатно</h2>
-          <p style={{ fontSize: 16, color: 'var(--color-ink-soft)', marginTop: 10 }}>1 день бесплатно · подходит для INCY и Happ</p>
+          <h2 className="mt-3" style={{ fontSize: 'clamp(1.45rem, 3vw, 1.85rem)' }}>Ключ для INCY — {TRIAL_OFFER_LABEL}</h2>
+          <p style={{ fontSize: 16, color: 'var(--color-ink-soft)', marginTop: 10 }}>{TRIAL_OFFER_LABEL} · подходит для INCY и Happ</p>
         </div>
         <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
           <div className="price-row">
             <div style={{ flex: 1 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <span style={{ fontSize: 17, fontWeight: 800, color: 'var(--color-ink)' }}>1 день</span>
+                <span style={{ fontSize: 17, fontWeight: 800, color: 'var(--color-ink)' }}>3 дня</span>
                 <span className="chip" style={{ textTransform: 'none', fontSize: '0.65rem' }}>
-                  Пробный
+                  Триал
                 </span>
               </div>
               <div style={{ fontSize: 13, color: 'var(--color-ink-soft)', marginTop: 2 }}>Полный доступ, все локации</div>
             </div>
             <div className="price-col">
-              <div style={{ fontSize: 26, fontWeight: 800, letterSpacing: -1.5, lineHeight: 1, color: 'var(--color-ink)' }}>бесплатно</div>
-              <div style={{ fontSize: 12, color: 'var(--color-ink-faint)', marginTop: 3 }}>за 1 день</div>
+              <div style={{ fontSize: 26, fontWeight: 800, letterSpacing: -1.5, lineHeight: 1, color: 'var(--color-ink)' }}>
+                9 <Rub>₽</Rub>
+              </div>
+              <div style={{ fontSize: 12, color: 'var(--color-ink-faint)', marginTop: 3 }}>за 3 дня</div>
             </div>
             <Link className="price-btn" to={ROUTES.LOGIN}>
               Попробовать

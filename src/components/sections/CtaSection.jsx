@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ROUTES, SUPPORT_URL } from '@utils/constants';
+import { ROUTES, SUPPORT_URL, TRIAL_OFFER_LABEL } from '@utils/constants';
 
 export default function CtaSection() {
   return (
@@ -32,14 +32,14 @@ export default function CtaSection() {
             marginBottom: 14,
           }}
         >
-          Ключ для INCY — один день бесплатно
+          Ключ для INCY — {TRIAL_OFFER_LABEL}
         </h2>
         <p style={{ fontSize: 17, color: 'rgba(4,20,10,.75)', marginBottom: 32 }}>
-          Регистрация за минуту. Вставьте ключ в INCY и подключайтесь.
+          Регистрация за минуту. Оформите триал в личном кабинете и подключайтесь через INCY.
         </p>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
           <Link className="btn btn-ghost" to={ROUTES.LOGIN} style={{ background: '#04140a', color: '#eefcf2', borderColor: '#04140a' }}>
-            Получить ключ бесплатно
+            {TRIAL_OFFER_LABEL}
           </Link>
           <a
             className="btn btn-ghost cta-support-outline"

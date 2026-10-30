@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ROUTES } from '@utils/constants';
+import { ROUTES, TRIAL_OFFER_LABEL } from '@utils/constants';
 
 function HeroVisual() {
   const chips = [
@@ -62,7 +62,7 @@ export default function HeroSection() {
             Скачать INCY
           </a>
           <Link to={ROUTES.LOGIN} className="btn btn-ghost">
-            Ключ на 1 день бесплатно →
+            {TRIAL_OFFER_LABEL} →
           </Link>
         </div>
       </div>

@@ -1,13 +1,32 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CreditCard } from 'lucide-react';
+import { CreditCard, Loader2 } from 'lucide-react';
 import Button from '@components/ui/Button';
-import { ROUTES, TARIFFS, PAYMENT_METHODS } from '@utils/constants';
+import { ROUTES, PAYMENT_METHODS, tariffsForBuySection } from '@utils/constants';
 import { tariffLabelWithTickets } from '@utils/raffle';
+import { userApi } from '@services/api';
 
 export default function TariffRenewalSection({ showHeader = true, showPaymentMethod = true }) {
   const navigate = useNavigate();
   const [method, setMethod] = useState('sbp');
+  const [inPanel, setInPanel] = useState(true);
+  const [tariffsLoading, setTariffsLoading] = useState(true);
+
+  useEffect(() => {
+    userApi
+      .subscription()
+      .then(({ data }) => {
+        setInPanel(data?.in_panel === true);
+      })
+      .catch(() => {
+        setInPanel(true);
+      })
+      .finally(() => {
+        setTariffsLoading(false);
+      });
+  }, []);
+
+  const tariffs = tariffsForBuySection(inPanel);
 
   const handleRenew = (tariffId) => {
     navigate(`${ROUTES.CHECKOUT}?tariff=${tariffId}&method=${method}`);
@@ -53,32 +72,44 @@ export default function TariffRenewalSection({ showHeader = true, showPaymentMet
         </div>
       )}
 
-      <div className="space-y-3">
-        {TARIFFS.map((tariff) => (
-          <div
-            key={tariff.id}
-            className={`card-dark flex items-center justify-between gap-4 ${tariff.popular ? 'border-zoomer-neon/40' : ''}`}
-          >
-            <div>
-              {tariff.popular && (
-                <span className="text-xs font-semibold text-zoomer-neon mb-1 block">Популярный</span>
-              )}
-              <div className="text-happ-ink font-semibold">
-                {tariffLabelWithTickets(tariff.label, tariff.days)}
+      {tariffsLoading ? (
+        <div className="card-dark flex items-center justify-center py-12">
+          <Loader2 className="w-8 h-8 text-zoomer-neon animate-spin" />
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {tariffs.map((tariff) => {
+            const isTrial = tariff.isTrial === true;
+            const actionLabel = isTrial ? 'Попробовать' : 'Продлить';
+            const subtitle = isTrial
+              ? 'Пробный доступ на 3 дня'
+              : `Продление на ${tariff.label.toLowerCase()}`;
+
+            return (
+              <div
+                key={tariff.id}
+                className={`card-dark flex items-center justify-between gap-4 ${tariff.popular ? 'border-zoomer-neon/40' : ''}`}
+              >
+                <div>
+                  {tariff.popular && (
+                    <span className="text-xs font-semibold text-zoomer-neon mb-1 block">Популярный</span>
+                  )}
+                  <div className="text-happ-ink font-semibold">
+                    {isTrial ? tariff.label : tariffLabelWithTickets(tariff.label, tariff.days)}
+                  </div>
+                  <div className="text-happ-faint text-xs mt-0.5">{subtitle}</div>
+                </div>
+                <div className="text-right shrink-0">
+                  <div className="text-xl font-bold text-gradient mb-2">{tariff.price} ₽</div>
+                  <Button type="button" className="text-sm px-4 py-2" onClick={() => handleRenew(tariff.id)}>
+                    {actionLabel}
+                  </Button>
+                </div>
               </div>
-              <div className="text-happ-faint text-xs mt-0.5">
-                {`Продление на ${tariff.label.toLowerCase()}`}
-              </div>
-            </div>
-            <div className="text-right shrink-0">
-              <div className="text-xl font-bold text-gradient mb-2">{tariff.price} ₽</div>
-              <Button type="button" className="text-sm px-4 py-2" onClick={() => handleRenew(tariff.id)}>
-                Продлить
-              </Button>
-            </div>
-          </div>
-        ))}
-      </div>
+            );
+          })}
+        </div>
+      )}
 
       <p className="text-center text-xs text-happ-faint">
         Оплата через СБП или карту РФ. Без автосписаний.

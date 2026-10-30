@@ -3,7 +3,7 @@ import { INCY_DOWNLOADS, ROUTES, SUPPORT_URL, TELEGRAM } from '@utils/constants'
 
 const footerLinks = [
   { path: ROUTES.HAPP, label: 'Подписка' },
-  { path: ROUTES.HAPP_FREE, label: 'Бесплатно' },
+  { path: ROUTES.HAPP_FREE, label: 'Триал 9 ₽' },
   { path: ROUTES.INCY_VPN, label: 'INCY vs Happ' },
   { path: ROUTES.LOGIN, label: 'Личный кабинет' },
 ];

@@ -249,7 +249,7 @@ export default function HomeRaffleSection() {
             </Link>
             <Link to={ROUTES.LOGIN} className="block w-full">
               <Button variant="secondary" className="w-full text-center">
-                Попробовать бесплатно
+                Триал 3 дня за 9 ₽
               </Button>
             </Link>
           </div>
