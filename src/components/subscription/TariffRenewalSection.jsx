@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { CreditCard, Loader2 } from 'lucide-react';
 import Button from '@components/ui/Button';
 import { ROUTES, PAYMENT_METHODS, tariffsForBuySection } from '@utils/constants';
-import { tariffLabelWithTickets } from '@utils/raffle';
+// import { tariffLabelWithTickets } from '@utils/raffle';
 import { userApi } from '@services/api';
 
 export default function TariffRenewalSection({ showHeader = true, showPaymentMethod = true }) {
@@ -95,7 +95,8 @@ export default function TariffRenewalSection({ showHeader = true, showPaymentMet
                     <span className="text-xs font-semibold text-zoomer-neon mb-1 block">Популярный</span>
                   )}
                   <div className="text-happ-ink font-semibold">
-                    {isTrial ? tariff.label : tariffLabelWithTickets(tariff.label, tariff.days)}
+                    {tariff.label}
+                    {/* {isTrial ? tariff.label : tariffLabelWithTickets(tariff.label, tariff.days)} */}
                   </div>
                   <div className="text-happ-faint text-xs mt-0.5">{subtitle}</div>
                 </div>

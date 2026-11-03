@@ -384,13 +384,15 @@ function BuyTab() {
           Выберите срок продления текущей подписки. VLESS-ключ и ссылка в Happ останутся прежними —
           меняется только оплаченный период доступа.
         </p>
-        <p className="text-sm font-semibold text-zoomer-neon leading-relaxed border-t border-zoomer-border pt-3 mb-3">
+        <p className="text-sm font-semibold text-zoomer-neon leading-relaxed border-t border-zoomer-border pt-3">
           💯Мы даем гарантию возврата средств, если VPN не заработает!
         </p>
+        {/*
         <p className="text-sm text-happ-muted leading-relaxed">
           🎟️Покупая любой тариф от 1 месяца, вы автоматически участвуете в розыгрыше более 100
           призов🎟️
         </p>
+        */}
       </div>
       <TariffRenewalSection showHeader={false} />
     </div>

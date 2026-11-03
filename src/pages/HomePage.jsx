@@ -1,5 +1,5 @@
 import { RouteMeta } from '@components/seo/PageMeta';
-import HomeRaffleSection from '@components/sections/HomeRaffleSection';
+// import HomeRaffleSection from '@components/sections/HomeRaffleSection';
 import HeroSection from '@components/sections/HeroSection';
 import CapsuleSection from '@components/sections/CapsuleSection';
 import DownloadSection from '@components/sections/DownloadSection';
@@ -16,7 +16,7 @@ export default function HomePage() {
   return (
     <div className="shell" style={{ paddingTop: '1.4rem', paddingBottom: '3.5rem' }}>
       <RouteMeta path={ROUTES.HOME} />
-      <HomeRaffleSection />
+      {/* <HomeRaffleSection /> */}
       <HeroSection />
       <CapsuleSection />
       <div id="connection" className="scroll-mt-24">
